@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>queryResult</title>
+    <link rel="stylesheet" type="text/css" href="{% static "itrash_manage/datatables/datatables.min.css" %}">
+</head>
+<body>
+    <table id="queryres">
+        <thead>
+            <tr>
+                <th>垃圾名称</th>
+                <th>垃圾类别</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in harmtrash %}
+                <tr>
+                    <td>{{ item.name }}</td>
+                    <td><i class="fa fa-bomb text-danger"></i>有害垃圾</td>
+                </tr>
+            {% endfor %}
+            {% for item in cycletrash %}
+                <tr>
+                    <td>{{ item.name }}</td>
+                    <td><i class="fa fa-recycle text-success"></i>可回收垃圾</td>
+                </tr>
+            {% endfor %}
+            {% for item in wettrash %}
+                <tr>
+                    <td>{{ item.name }}</td>
+                    <td><i class="fa fa-lemon-o text-warning"></i>湿垃圾</td>
+                </tr>
+            {% endfor %}
+            {% for item in drytrash %}
+                <tr>
+                    <td>{{ item.name }}</td>
+                    <td><i class="fa fa-cube text-primary"></i>干垃圾</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <script src="{% static "itrash_manage/datatables/datatables.min.js" %}"></script>
+    <script>
+        $(function () {
+            $('#queryres').DataTable();
+        })
+    </script>
+</body>
+</html>

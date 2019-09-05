@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <div class="container">
+        <div class="row m-4">
+            <h1 class="h3 mb-0 text-gray-800">控制</h1>
+        </div>
+        <div class="row"><div class="card col-md-6 p-0">
+            <div class="card-header">
+                允许上传
+            </div>
+            <div class="card-body">
+                <div class="row no-gutters align-content-center justify-content-center">
+                    <div class="col-auto">
+                    <div class="form-group">
+                        <label class="form-check-label">当前状况:</label>
+                        {% if enableUpload %}
+                            <i class="fa fa-check text-success"></i>
+                        {% else %}
+                            <i class="fa fa-times text-danger"></i>
+                        {% endif %}
+                    </div></div>
+                    <div class="col ml-2 mr-2 changeUploadVal">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="upload" id="uploadclose" value="0" {% if not enableUpload %}checked{% endif %}>
+                            <label class="form-check-label" for="close">
+                                关闭
+                            </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="upload" id="uploadopen" value="1" {% if enableUpload %}checked{% endif %}>
+                            <label class="form-check-label" for="open">
+                                开启
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-auto"><button class="btn btn-info changeUpload">确定</button></div>
+                </div></div>
+            </div>
+        </div>
+    </div>
+    <script src="{% static "itrash_manage/js/control.js"%}"></script>
+</body>
+</html>

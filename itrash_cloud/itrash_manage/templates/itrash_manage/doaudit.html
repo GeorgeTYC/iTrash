@@ -1,0 +1,83 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <title>labelimg</title>
+</head>
+<body>
+{% if not isnull %}
+    <div id="alert-placeholder"></div>
+    <div class="container">
+    <div class="card mt-2">
+    <div class="card-header">
+        类别设定(逗号分隔）
+    </div>
+    <div class="card-body">
+        <div class="row no-gutters align-items-center">
+            <div class="input-group col mr-2">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fa fa-flag"></i></span>
+                </div>
+                <input type="text" class="form-control" id="lblList" placeholder="逗号分隔的类别名" aria-label="types">
+            </div>
+            <div class="col-auto"><button class="btn btn-info setLbl">确定</button></div>
+        </div>
+    </div>
+    </div>
+    <div class="card mt-2">
+    <div class="card-header">
+        人工审核、标记
+    </div>
+    <div class="card-body">
+        {% for i,item in picinfo %}
+            {% if i|divisibleby:4 %}
+                <div class="row">
+            {% endif %}
+            <div class="col-xl-3 col-sm-6 mb-2"><div class="card">
+                <img src="{{item.thumb.url}}" class="card-img-top" alt="{{item.predict}}">
+                <div class="card-body card-main">
+                    <h5 class="card-title">{{item.predict}}<a class="fa fa-trash-o text-danger float-right pic-delete" data-id="{{ item.PicID }}"></a></h5>
+                    <p class="card-text">机号:{{item.machine}},时间:{{item.time}}</p>
+                    <div class="input-group audit-bar" id="bar_{{ item.PicID }}">
+                        <div class="input-group-prepend">
+                            <button class="btn btn-outline-secondary audit_yes" type="button" data-id="{{ item.PicID }}" data-pred="{{item.predict}}"><i class="fa fa-check"></i></button>
+                        </div>
+                        <select class="custom-select audit_sel" data-id="{{ item.PicID }}" id="inputGroupSelect03">
+                            <option selected>选择...</option>
+                            {% for nntype in nntypes %}
+                                <option value="{{ nntype }}">{{ nntype }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div></div>
+                {% if i|add:1|divisibleby:4 %}
+                    </div>
+                {% endif %}
+        {% endfor %}
+{% else %}
+    <style>
+        #content-wrapper{
+            background-color: #adb5bd !important;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #content-wrapper p{
+            color: #545c6e;
+            text-align: center;
+        }
+    </style>
+    <div>
+        <p><i style="font-size: 130px;" class="fa fa-info-circle"></i></p>
+        <p>全部图片已分类完</p>
+    </div>
+{% endif %}
+    </div>
+    </div>
+    </div>
+    <div style="position: fixed;right:0;bottom:4%;"><i class="totop fa fa-arrow-up fa-3x text-gray-800"></i><i class="togglerefresh fa fa-clock-o fa-3x"></i></div>
+    <script src="{% static "itrash_manage/js/audit.js"%}"></script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>picrecord</title>
+</head>
+<body>
+    <div class="container">
+    {% if not isnull %}
+        <div class="row m-4">
+            <h1 class="h3 mb-0 text-gray-800">查看已分类</h1>
+        </div>
+        {% for i,item in picinfo %}
+            {% if i|divisibleby:4 %}
+                <div class="row">
+            {% endif %}
+            <div class="col-xl-3 col-sm-6 mb-2"><div class="card">
+                <div class="card-header">{% if item.real == item.predict %}<i class="fa fa-check-circle"></i>{% else %}<i class="fa fa-times-circle"></i>{% endif %} 真实:{{ item.real }}</div>
+                <img src="{{item.thumb.url}}" class="card-img-top" alt="{{item.predict}}">
+                <div class="card-body card-main">
+                    <h5 class="card-title">预测:{{item.predict}}</h5>
+                    <p class="card-text">机号:{{item.machine}},时间:{{item.time}}</p>
+                    <div class="row no-gutters text-center">
+                        <div class="col">
+                            <button class="btn btn-warning re_lbl mr-1" id="re_{{ item.PicID }}" data-id="{{ item.PicID }}">重新标注</button>
+                        </div>
+                        <div class="col">
+                            <button class="btn btn-danger pic-delete ml-1" data-id="{{ item.PicID }}">删除图片</button>
+                        </div>
+                    </div>
+                </div>
+            </div></div>
+                {% if i|add:1|divisibleby:4 %}
+                    </div>
+                {% endif %}
+        {% endfor %}
+    {% else %}
+        <style>
+            #content-wrapper{
+                background-color: #adb5bd !important;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            #content-wrapper p{
+                color: #545c6e;
+                text-align: center;
+            }
+        </style>
+        <div>
+            <p><i style="font-size: 130px;" class="fa fa-info-circle"></i></p>
+            <p>没有已分类图片</p>
+        </div>
+    {% endif %}
+    </div>
+    <script src="{% static "itrash_manage/js/picrecord.js"%}"></script>
+</body>
+</html>

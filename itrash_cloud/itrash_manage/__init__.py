@@ -1,0 +1,1 @@
+default_app_config = "itrash_manage.apps.itrashManageConfig"

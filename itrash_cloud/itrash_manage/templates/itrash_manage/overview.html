@@ -1,0 +1,161 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>overview</title>
+    <link rel="stylesheet" href="{% static "/itrash_manage/css/Chart.css" %}">
+    <link rel="stylesheet" href="{% static "/itrash_manage/css/overview.css" %}">
+</head>
+<body>
+    <div class="modal fade" id="QResultModal" tabindex="-1" role="dialog" aria-labelledby="queryResult" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="QResultModalTitle">垃圾查询结果</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Retriving result...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row m-4">
+            <h1 class="h3 mb-0 text-gray-800">概览</h1>
+        </div>
+        <div class="row">
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-primary shadow h-100 py-2">
+                    <div class="card-body">
+                      <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                          <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">总垃圾数</div>
+                          <div class="h5 mb-0 font-weight-bold text-gray-800">{{ totalTrash }}</div>
+                        </div>
+                        <div class="col-auto">
+                          <i class="fa fa-trash fa-2x text-gray-300"></i>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">待审核垃圾数</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">{{ pendingTrash }}</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fa fa-comment-o fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-info text-uppercase mb-1">识别准确率</div>
+                      <div class="row no-gutters align-items-center">
+                        <div class="col-auto">
+                          <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{ TrashAcc }}</div>
+                        </div>
+                        <div class="col">
+                          <div class="progress progress-sm mr-2">
+                            <div class="progress-bar bg-info" role="progressbar" style="width: {{ TrashAcc }}" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fa fa-eye fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">正确数(不含未审核)</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">{{ correctTrash }}</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fa fa-check-circle-o fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-8 col-lg-7">
+                <div class="card shadow mb-4">
+                <!-- Card Header-->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">垃圾查询</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                    <div class="row no-gutters align-content-center">
+                        <div class="col">
+                            <input type="text" class="form-control" id="queryTrash" placeholder="垃圾类别" aria-label="queryTrash">
+                        </div>
+                         <div class="col-auto ml-2">
+                             <button class="btn btn-info doqueryTrash" data-toggle="modal" data-target="#QResultModal">确定</button>
+                         </div>
+                    </div>
+                    <hr class="my-3">
+                    <div class="chart-area"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+                        <canvas id="myBarChart" width="980" height="249" class="chartjs-render-monitor" style="display: block; height: 249px; width: 784px;"></canvas>
+                    </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-4 col-lg-5">
+              <div class="card shadow mb-4">
+                <!-- Card Header -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">垃圾类别</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                  <div class="chart-pie pt-4 pb-2"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+                    <canvas id="myPieChart" width="448" height="306" class="chartjs-render-monitor" style="display: block; height: 245px; width: 359px;"></canvas>
+                  </div>
+                  <div class="mt-4 text-center small">
+                    <span class="mr-2">
+                      <i class="fa fa-circle text-success"></i> 可回收
+                    </span>
+                    <span class="mr-2">
+                      <i class="fa fa-circle text-primary"></i> 干垃圾
+                    </span>
+                    <span class="mr-2">
+                      <i class="fa fa-circle text-info"></i> 湿垃圾
+                    </span>
+                    <span class="mr-2">
+                      <i class="fa fa-circle text-danger"></i> 有害垃圾
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+    <script src="{% static "itrash_manage/js/Chart.bundle.js"%}"></script>
+    <script src="{% static "itrash_manage/js/overview.js"%}"></script>
+</body>
+</html>
