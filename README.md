@@ -8,4 +8,4 @@
 
 ##该项目包含三个部分：树莓派端（raspberry pi）、云端（itrash_cloud)、电脑训练端（ResNet、SVM）。
 
-##本项目的数据集可从https://pan.baidu.com/s/1OHTYjheD0MVqJwGZfYeDLA百度网盘获取。
+##本项目的数据集可从https://pan.baidu.com/s/1OHTYjheD0MVqJwGZfYeDLA 百度网盘获取。
